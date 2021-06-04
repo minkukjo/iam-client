@@ -3,26 +3,40 @@ import React, { useState } from 'react'
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
-  UserOutlined,
   VideoCameraOutlined,
-  UploadOutlined
+  UploadOutlined,
+  TableOutlined
 } from '@ant-design/icons'
 import 'antd/dist/antd.css'
-import './board.css'
+import './main.css'
+import PostPage from './post'
 
 const { Header, Sider, Content } = Layout
 
 interface Props {}
 
-function BoardPageView() {
+function MainPageView() {
   const [toggle, setToggle] = useState(false)
+  const [menuItemKey, setMenuItemKey] = useState('1')
+
+  const onClick = (item: any) => {
+    setMenuItemKey(item.key)
+  }
+
+  const renderMenuItem = () => {
+    if (menuItemKey === '1') {
+      return <PostPage></PostPage>
+    } else {
+      return <div>{menuItemKey}</div>
+    }
+  }
 
   return (
     <Layout>
       <Sider trigger={null} collapsible collapsed={toggle}>
         <div className="logo" />
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-          <Menu.Item key="1" icon={<UserOutlined />}>
+        <Menu theme="dark" mode="inline" onClick={onClick} defaultSelectedKeys={['1']}>
+          <Menu.Item key="1" icon={<TableOutlined />}>
             nav 1
           </Menu.Item>
           <Menu.Item key="2" icon={<VideoCameraOutlined />}>
@@ -45,14 +59,14 @@ function BoardPageView() {
           style={{
             margin: '24px 16px',
             padding: 24,
-            minHeight: 280
+            minHeight: '100vh'
           }}
         >
-          Content
+          {renderMenuItem()}
         </Content>
       </Layout>
     </Layout>
   )
 }
 
-export default BoardPageView
+export default MainPageView

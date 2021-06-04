@@ -2,10 +2,10 @@ import React from 'react'
 import { RouteComponentProps, withRouter } from 'react-router'
 import { createRouter, IRoute } from 'utils/routerCreator'
 
-import BoardPage from 'pages/board/board'
+import MainPage from 'pages/main/main'
 
 const routes: IRoute[] = [
-  { path: '/', component: BoardPage }
+  { path: '/', component: MainPage }
   //   { path: '/:id', component: BoardDetailPage }
 ]
 
