@@ -5,13 +5,17 @@ import {
   MenuFoldOutlined,
   VideoCameraOutlined,
   UploadOutlined,
-  TableOutlined
+  CommentOutlined,
+  ReadOutlined,
+  BulbOutlined
 } from '@ant-design/icons'
 import 'antd/dist/antd.css'
 import './main.css'
-import { BrowserRouter, Link, Route, Switch } from 'react-router-dom'
-import PostPage from '../post/post'
-import PostDetailPage from '../post/[id]/postDetail'
+import { BrowserRouter, Link, Redirect, Route, Switch } from 'react-router-dom'
+import CommunityPage from '../community/community'
+import CommunityDetailPage from '../community/[id]/communityDetail'
+import StudyPage from 'pages/study/sutdy'
+import QnaPage from 'pages/qna/qna'
 const { Header, Sider, Content } = Layout
 
 interface Props {}
@@ -31,15 +35,16 @@ function MainRouterPage() {
           <Sider trigger={null} collapsible collapsed={toggle}>
             <div className="logo" />
             <Menu theme="dark" mode="inline" onClick={onClick} defaultSelectedKeys={['1']}>
-              <Menu.Item key="1" icon={<TableOutlined />}>
-                <Link to="/posts"></Link>
-                게시판
+              <Menu.Item key="1" icon={<CommentOutlined />}>
+                <Link to="/community"></Link>
+                커뮤니티
               </Menu.Item>
-              <Menu.Item key="2" icon={<VideoCameraOutlined />}>
-                nav 2
+              <Menu.Item key="2" icon={<ReadOutlined />}>
+                <Link to="/study"></Link>
+                스터디 모집
               </Menu.Item>
-              <Menu.Item key="3" icon={<UploadOutlined />}>
-                nav 3
+              <Menu.Item key="3" icon={<BulbOutlined />}>
+                <Link to="/qna">Q & A</Link>
               </Menu.Item>
             </Menu>
           </Sider>
@@ -58,8 +63,11 @@ function MainRouterPage() {
                 minHeight: '100vh'
               }}
             >
-              <Route path="/posts" component={PostPage} />
-              <Route path="/post/:id" component={PostDetailPage} />
+              <Redirect path="/" to="/community" />
+              <Route path="/community" component={CommunityPage} />
+              <Route path="/c/post/:id" component={CommunityDetailPage} />
+              <Route path="/study" component={StudyPage} />
+              <Route path="/qna" component={QnaPage} />
             </Content>
           </Layout>
         </Layout>

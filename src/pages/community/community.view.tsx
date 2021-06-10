@@ -9,13 +9,11 @@ import Icon, {
   StarOutlined
 } from '@ant-design/icons'
 import { Avatar, Button, List, Space } from 'antd'
-import { Post } from 'interface/post'
-import React from 'react'
+import { fetchPosts } from 'api/post'
+import { PagePost, Post } from 'interface/post'
+import React, { useState } from 'react'
+import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
-
-interface Props {
-  posts: Post[]
-}
 
 export const IconText = ({ icon, text }: { icon: any; text: any }) => (
   <Space>
@@ -24,9 +22,12 @@ export const IconText = ({ icon, text }: { icon: any; text: any }) => (
   </Space>
 )
 
-const PostPageView = ({ posts }: Props) => {
-  console.dir(posts)
-  return (
+const CommunityPageView = () => {
+  const [page, setPage] = useState(0)
+  const { status, data: posts, error, isFetching } = useQuery(['posts', { page }], fetchPosts)
+  console.log(page)
+
+  return posts ? (
     <div>
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <Button type="primary" icon={<EditOutlined />}>
@@ -38,11 +39,13 @@ const PostPageView = ({ posts }: Props) => {
         size="large"
         pagination={{
           onChange: (page) => {
-            console.log(page)
+            setPage(page - 1)
           },
-          pageSize: 10
+          current: page + 1,
+          pageSize: posts?.size,
+          total: posts?.totalElements
         }}
-        dataSource={posts}
+        dataSource={posts?.content}
         footer={
           <div>
             <b>Harry Corporation </b>
@@ -63,7 +66,7 @@ const PostPageView = ({ posts }: Props) => {
           >
             <List.Item.Meta
               // avatar={<Avatar src={item.id} />}
-              title={<Link to={`post/${item.id}`}>{item.title}</Link>}
+              title={<Link to={`c/post/${item.id}`}>{item.title}</Link>}
               description={item.content}
             />
             {item.content}
@@ -71,7 +74,9 @@ const PostPageView = ({ posts }: Props) => {
         )}
       />
     </div>
+  ) : (
+    <div> loading... </div>
   )
 }
 
-export default PostPageView
+export default CommunityPageView

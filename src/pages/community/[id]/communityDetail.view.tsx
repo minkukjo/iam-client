@@ -2,15 +2,13 @@ import { CalendarOutlined, EyeOutlined, LikeOutlined, MessageOutlined } from '@a
 import { Divider, Row, Space } from 'antd'
 import { Post } from 'interface/post'
 import React from 'react'
-import { IconText } from '../post.view'
+import { IconText } from '../community.view'
 
 interface Props {
   post: Post
 }
 
-const PostDetailPageView = ({ post }: Props) => {
-  console.dir(post)
-  console.log('컴온')
+const CommunityDetailPageView = ({ post }: Props) => {
   return (
     <div>
       <Row justify="start" align="top">
@@ -30,8 +28,9 @@ const PostDetailPageView = ({ post }: Props) => {
         />
       </Space>
       <Divider plain></Divider>
+      <Space>{post.content}</Space>
     </div>
   )
 }
 
-export default PostDetailPageView
+export default CommunityDetailPageView

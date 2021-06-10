@@ -9,3 +9,12 @@ export interface Post {
   createdAt: string
   updatedAt?: string
 }
+
+export interface PagePost {
+  content: Post[]
+  totalPages: number
+  totalElements: number
+  first: boolean
+  last: boolean
+  size: number
+}
