@@ -1,14 +1,14 @@
 import React from 'react'
-import RootRouter from 'routers'
 import { setAxiosDefaults } from 'api'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import MainPage from 'pages/main/main'
 
 function App() {
   setAxiosDefaults()
 
   return (
     <QueryClientProvider client={new QueryClient()}>
-      <RootRouter></RootRouter>
+      <MainPage></MainPage>
     </QueryClientProvider>
   )
 }

@@ -1,17 +1,9 @@
-import MainPage from 'pages/main/main'
-import HomePage from 'pages/home/home'
-import React from 'react'
-import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
+import PostDetailPage from 'pages/post/[id]/postDetail'
+import { RouteComponentProps, withRouter } from 'react-router'
+import { createRouter, IRoute } from 'utils/routerCreator'
 
-const RootRouter: React.FC = () => (
-  <BrowserRouter>
-    <Switch>
-      <Route exact path="/" component={HomePage}>
-        {/* <Redirect to="/projects" /> */}
-      </Route>
-      <Route path="/main" component={MainPage} />
-    </Switch>
-  </BrowserRouter>
-)
+const routes: IRoute[] = [{ path: 'posts/:id', component: PostDetailPage }]
 
-export default RootRouter
+const PostsRouter: React.FC<RouteComponentProps> = ({ match }) => createRouter(match.url, routes)
+
+export default withRouter(PostsRouter)

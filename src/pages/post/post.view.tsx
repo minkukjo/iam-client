@@ -9,25 +9,15 @@ import Icon, {
   StarOutlined
 } from '@ant-design/icons'
 import { Avatar, Button, List, Space } from 'antd'
-import { Content } from 'antd/lib/layout/layout'
-import React, { useState } from 'react'
+import { Post } from 'interface/post'
+import React from 'react'
+import { Link } from 'react-router-dom'
 
 interface Props {
-  posts: any
+  posts: Post[]
 }
 
-const listData: any[] = []
-for (let i = 0; i < 23; i++) {
-  listData.push({
-    href: 'https://ant.design',
-    title: `ant design part ${i}`,
-    avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-    content:
-      'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.'
-  })
-}
-
-const IconText = ({ icon, text }: { icon: any; text: any }) => (
+export const IconText = ({ icon, text }: { icon: any; text: any }) => (
   <Space>
     <Icon component={icon}></Icon>
     {text}
@@ -35,7 +25,7 @@ const IconText = ({ icon, text }: { icon: any; text: any }) => (
 )
 
 const PostPageView = ({ posts }: Props) => {
-  console.dir(listData)
+  console.dir(posts)
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -52,29 +42,29 @@ const PostPageView = ({ posts }: Props) => {
           },
           pageSize: 10
         }}
-        dataSource={listData}
+        dataSource={posts}
         footer={
           <div>
             <b>Harry Corporation </b>
           </div>
         }
-        renderItem={(item: any) => (
+        renderItem={(item: Post) => (
           <List.Item
-            key={item.title}
+            key={item.id}
             actions={[
-              <IconText icon={EyeOutlined} text="156" key="list-vertical-star-o" />,
-              <IconText icon={LikeOutlined} text="32" key="list-vertical-like-o" />,
+              <IconText icon={EyeOutlined} text={item.views} key="list-vertical-star-o" />,
+              <IconText icon={LikeOutlined} text={item.likes} key="list-vertical-like-o" />,
               <IconText icon={MessageOutlined} text="2" key="list-vertical-message" />,
-              <IconText icon={CalendarOutlined} text="2021-06-05 15:32" key="list-vertical-date" />
+              <IconText icon={CalendarOutlined} text={item.createdAt} key="list-vertical-date" />
             ]}
             extra={
               <img width={180} alt="logo" src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png" />
             }
           >
             <List.Item.Meta
-              avatar={<Avatar src={item.avatar} />}
-              title={<a href={item.href}>{item.title}</a>}
-              description={item.description}
+              // avatar={<Avatar src={item.id} />}
+              title={<Link to={`post/${item.id}`}>{item.title}</Link>}
+              description={item.content}
             />
             {item.content}
           </List.Item>
