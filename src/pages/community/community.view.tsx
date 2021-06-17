@@ -13,7 +13,7 @@ import { fetchPosts } from 'api/post'
 import { PagePost, Post } from 'interface/post'
 import React, { useState } from 'react'
 import { useQuery } from 'react-query'
-import { Link } from 'react-router-dom'
+import { Link, RouteComponentProps } from 'react-router-dom'
 
 export const IconText = ({ icon, text }: { icon: any; text: any }) => (
   <Space>
@@ -22,15 +22,19 @@ export const IconText = ({ icon, text }: { icon: any; text: any }) => (
   </Space>
 )
 
-const CommunityPageView = () => {
+const CommunityPageView: React.FC<RouteComponentProps> = ({ history }) => {
   const [page, setPage] = useState(0)
   const { status, data: posts, error, isFetching } = useQuery(['posts', { page }], fetchPosts)
   console.log(page)
 
+  const onClick = () => {
+    history.push('/write/community')
+  }
+
   return posts ? (
     <div>
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <Button type="primary" icon={<EditOutlined />}>
+        <Button type="primary" icon={<EditOutlined />} onClick={onClick}>
           글쓰기
         </Button>
       </div>

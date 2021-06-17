@@ -16,6 +16,7 @@ import CommunityPage from '../community/community'
 import CommunityDetailPage from '../community/[id]/communityDetail'
 import StudyPage from 'pages/study/sutdy'
 import QnaPage from 'pages/qna/qna'
+import WritingPage from 'pages/write/wrtie'
 const { Header, Sider, Content } = Layout
 
 interface Props {}
@@ -68,6 +69,7 @@ function MainRouterPage() {
               <Route path="/c/post/:id" component={CommunityDetailPage} />
               <Route path="/study" component={StudyPage} />
               <Route path="/qna" component={QnaPage} />
+              <Route path="/write/:category" component={WritingPage} />
             </Content>
           </Layout>
         </Layout>
