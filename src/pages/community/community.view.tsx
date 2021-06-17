@@ -25,7 +25,6 @@ export const IconText = ({ icon, text }: { icon: any; text: any }) => (
 const CommunityPageView: React.FC<RouteComponentProps> = ({ history }) => {
   const [page, setPage] = useState(0)
   const { status, data: posts, error, isFetching } = useQuery(['posts', { page }], fetchPosts)
-  console.log(page)
 
   const onClick = () => {
     history.push('/write/community')
