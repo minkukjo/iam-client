@@ -4,10 +4,17 @@ export interface Post {
   comments?: any[]
   title: string
   content: string
+  type: string
   views: number
   likes: number
   createdAt: string
   updatedAt?: string
+}
+
+export interface PostParams {
+  title: string
+  content: string
+  type: string
 }
 
 export interface PagePost {

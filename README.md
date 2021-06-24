@@ -1,3 +1,11 @@
+## Tech Stack
+
+- React
+- Typescript
+- React-Query
+- React-Hook-Form
+- Recoil (Global State Manager')
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

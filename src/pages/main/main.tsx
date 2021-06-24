@@ -1,5 +1,5 @@
 import { Layout, Menu } from 'antd'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -17,16 +17,16 @@ import CommunityDetailPage from '../community/[id]/communityDetail'
 import StudyPage from 'pages/study/sutdy'
 import QnaPage from 'pages/qna/qna'
 import WritingPage from 'pages/write/wrtie'
+import { useRecoilState } from 'recoil'
+import { menuItemState } from 'state/state'
 const { Header, Sider, Content } = Layout
-
-interface Props {}
 
 function MainRouterPage() {
   const [toggle, setToggle] = useState(false)
-  const [menuItemKey, setMenuItemKey] = useState('1')
+  const [menuItem, setMenuItem] = useRecoilState(menuItemState)
 
   const onClick = (item: any) => {
-    setMenuItemKey(item.key)
+    setMenuItem(item.key)
   }
 
   return (
@@ -36,16 +36,22 @@ function MainRouterPage() {
           <Layout>
             <Sider trigger={null} collapsible collapsed={toggle}>
               <div className="logo" />
-              <Menu theme="dark" mode="inline" onClick={onClick} defaultSelectedKeys={['1']}>
-                <Menu.Item key="1" icon={<CommentOutlined />}>
+              <Menu
+                theme="dark"
+                mode="inline"
+                onClick={onClick}
+                selectedKeys={[menuItem]}
+                defaultSelectedKeys={['community']}
+              >
+                <Menu.Item key="community" icon={<CommentOutlined />}>
                   <Link to="/community"></Link>
                   커뮤니티
                 </Menu.Item>
-                <Menu.Item key="2" icon={<ReadOutlined />}>
+                <Menu.Item key="study" icon={<ReadOutlined />}>
                   <Link to="/study"></Link>
                   스터디 모집
                 </Menu.Item>
-                <Menu.Item key="3" icon={<BulbOutlined />}>
+                <Menu.Item key="qna" icon={<BulbOutlined />}>
                   <Link to="/qna">Q & A</Link>
                 </Menu.Item>
               </Menu>
@@ -65,12 +71,12 @@ function MainRouterPage() {
                   minHeight: '100vh'
                 }}
               >
-                <Redirect path="/" to="/community" />
+                {/* <Redirect path="/" to="/community" /> */}
                 <Route path="/community" component={CommunityPage} />
                 <Route path="/c/post/:id" component={CommunityDetailPage} />
                 <Route path="/study" component={StudyPage} />
                 <Route path="/qna" component={QnaPage} />
-                <Route path="/write/:category" component={WritingPage} />
+                <Route path="/write" component={WritingPage} />
               </Content>
             </Layout>
           </Layout>

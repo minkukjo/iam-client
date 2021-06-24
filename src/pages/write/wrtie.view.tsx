@@ -1,9 +1,14 @@
-import { Button, Col, Form, Input, Row } from 'antd'
+import { Button, Col, Form, Input, Row, Select } from 'antd'
 import { Controller, useForm } from 'react-hook-form'
 
 const { TextArea } = Input
+const { Option } = Select
 
-function WritingPageView() {
+interface Props {
+  onSubmit: (data: any) => void
+}
+
+const WritingPageView = ({ onSubmit }: Props) => {
   const {
     handleSubmit,
     control,
@@ -11,11 +16,37 @@ function WritingPageView() {
     watch,
     formState: { errors }
   } = useForm()
-  const onSubmit = (data: any) => console.log(data)
+
+  const onTest = (data: any) => console.log(data)
 
   return (
     <Form onFinish={handleSubmit(onSubmit)}>
       <div>
+        <Controller
+          name="category"
+          control={control}
+          render={({ field }) => (
+            <Form.Item
+              name="category"
+              style={{ fontWeight: 'bold' }}
+              labelCol={{ span: 24 }}
+              label="게시판 타입"
+              rules={[{ required: true, message: '게시판 타입은 필수로 선택해야합니다.' }]}
+            >
+              <Select
+                {...field}
+                options={[
+                  { value: 'community', label: '커뮤니티' },
+                  { value: 'study', label: '스터디 모집' },
+                  { value: 'qna', label: 'Q & A' }
+                ]}
+                style={{ width: 120 }}
+              ></Select>
+            </Form.Item>
+          )}
+        ></Controller>
+      </div>
+      <div style={{ marginTop: 10 }}>
         <Controller
           name="title"
           control={control}

@@ -27,7 +27,7 @@ const CommunityPageView: React.FC<RouteComponentProps> = ({ history }) => {
   const { status, data: posts, error, isFetching } = useQuery(['posts', { page }], fetchPosts)
 
   const onClick = () => {
-    history.push('/write/community')
+    history.push('/write')
   }
 
   return posts ? (
