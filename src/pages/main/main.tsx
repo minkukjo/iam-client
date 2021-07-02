@@ -18,12 +18,14 @@ import StudyPage from 'pages/study/sutdy'
 import QnaPage from 'pages/qna/qna'
 import WritingPage from 'pages/write/wrtie'
 import { useRecoilState } from 'recoil'
-import { menuItemState } from 'state/state'
+import { menuItemState, pageState } from 'state/state'
+import ScrollToTop from 'components/scroll'
 const { Header, Sider, Content } = Layout
 
 function MainRouterPage() {
   const [toggle, setToggle] = useState(false)
   const [menuItem, setMenuItem] = useRecoilState(menuItemState)
+  const [page, setPage] = useRecoilState(pageState)
 
   const onClick = (item: any) => {
     setMenuItem(item.key)
@@ -31,6 +33,7 @@ function MainRouterPage() {
 
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Switch>
         <>
           <Layout>
@@ -71,7 +74,7 @@ function MainRouterPage() {
                   minHeight: '100vh'
                 }}
               >
-                <Redirect path="/" to="/community?page=0" />
+                {/* <Redirect path="/" to={`/community?page=${page}`} /> */}
                 <Route path="/community" component={CommunityPage} />
                 <Route path="/c/post/:id" component={CommunityDetailPage} />
                 <Route path="/study" component={StudyPage} />

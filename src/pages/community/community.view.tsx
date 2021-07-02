@@ -11,9 +11,11 @@ import Icon, {
 import { Avatar, Button, List, Space } from 'antd'
 import { fetchPosts } from 'api/post'
 import { PagePost, Post } from 'interface/post'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 import { Link, RouteComponentProps } from 'react-router-dom'
+import { useRecoilState } from 'recoil'
+import { pageState } from 'state/state'
 
 export const IconText = ({ icon, text }: { icon: any; text: any }) => (
   <Space>
@@ -24,12 +26,17 @@ export const IconText = ({ icon, text }: { icon: any; text: any }) => (
 
 const CommunityPageView: React.FC<RouteComponentProps> = ({ history, location }) => {
   const pageId: number = Number(location.search.split('=')[1])
-  const [page, setPage] = useState(pageId === undefined ? 0 : pageId)
-  const { status, data: posts, error, isFetching } = useQuery(['posts', { page }], fetchPosts)
+  const [page, setPage] = useRecoilState(pageState)
+  const [size, setSize] = useState(20)
+  const { status, data: posts, error, isFetching } = useQuery(['posts', { page, size }], fetchPosts)
 
   const onClick = () => {
     history.push('/write')
   }
+
+  useEffect(() => {
+    setPage(pageId === undefined ? 0 : pageId)
+  })
 
   return posts ? (
     <div>
@@ -42,12 +49,14 @@ const CommunityPageView: React.FC<RouteComponentProps> = ({ history, location })
         itemLayout="vertical"
         size="large"
         pagination={{
-          onChange: (page) => {
+          onChange: (page, pageSize) => {
+            window.scrollTo(0, 0)
+            setSize(pageSize === undefined ? 0 : pageSize)
             setPage(page - 1)
             history.push(`/community?page=${page - 1}`)
           },
           current: page + 1,
-          pageSize: posts?.size,
+          pageSize: size,
           total: posts?.totalElements
         }}
         dataSource={posts?.content}
