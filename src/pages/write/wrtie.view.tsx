@@ -17,8 +17,6 @@ const WritingPageView = ({ onSubmit }: Props) => {
     formState: { errors }
   } = useForm()
 
-  const onTest = (data: any) => console.log(data)
-
   return (
     <Form onFinish={handleSubmit(onSubmit)}>
       <div>

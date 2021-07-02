@@ -1,5 +1,5 @@
-import { CalendarOutlined, EyeOutlined, LikeOutlined, MessageOutlined } from '@ant-design/icons'
-import { Divider, Row, Space } from 'antd'
+import { CalendarOutlined, DownloadOutlined, EyeOutlined, LikeOutlined, MessageOutlined } from '@ant-design/icons'
+import { Button, Divider, Row, Space } from 'antd'
 import { Post } from 'interface/post'
 import React from 'react'
 import { IconText } from '../community.view'
@@ -11,6 +11,15 @@ interface Props {
 const CommunityDetailPageView = ({ post }: Props) => {
   return (
     <div>
+      <Row justify="start" align="top" style={{ marginBottom: 10 }}>
+        <Button type="primary" icon={<DownloadOutlined />} style={{ marginRight: 10 }}></Button>
+        <Button type="primary" icon={<DownloadOutlined />} style={{ marginRight: 10 }}>
+          수정
+        </Button>
+        <Button type="primary" icon={<DownloadOutlined />}>
+          글 삭제
+        </Button>
+      </Row>
       <Row justify="start" align="top">
         <h2 style={{ fontSize: '24px', lineHeight: '32px', fontWeight: 'bold' }}>{post.title}</h2>
       </Row>

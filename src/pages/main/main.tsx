@@ -44,7 +44,7 @@ function MainRouterPage() {
                 defaultSelectedKeys={['community']}
               >
                 <Menu.Item key="community" icon={<CommentOutlined />}>
-                  <Link to="/community"></Link>
+                  <Link to="/community?page=0"></Link>
                   커뮤니티
                 </Menu.Item>
                 <Menu.Item key="study" icon={<ReadOutlined />}>
@@ -71,7 +71,7 @@ function MainRouterPage() {
                   minHeight: '100vh'
                 }}
               >
-                {/* <Redirect path="/" to="/community" /> */}
+                <Redirect path="/" to="/community?page=0" />
                 <Route path="/community" component={CommunityPage} />
                 <Route path="/c/post/:id" component={CommunityDetailPage} />
                 <Route path="/study" component={StudyPage} />

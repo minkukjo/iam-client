@@ -22,8 +22,9 @@ export const IconText = ({ icon, text }: { icon: any; text: any }) => (
   </Space>
 )
 
-const CommunityPageView: React.FC<RouteComponentProps> = ({ history }) => {
-  const [page, setPage] = useState(0)
+const CommunityPageView: React.FC<RouteComponentProps> = ({ history, location }) => {
+  const pageId: number = Number(location.search.split('=')[1])
+  const [page, setPage] = useState(pageId === undefined ? 0 : pageId)
   const { status, data: posts, error, isFetching } = useQuery(['posts', { page }], fetchPosts)
 
   const onClick = () => {
@@ -43,6 +44,7 @@ const CommunityPageView: React.FC<RouteComponentProps> = ({ history }) => {
         pagination={{
           onChange: (page) => {
             setPage(page - 1)
+            history.push(`/community?page=${page - 1}`)
           },
           current: page + 1,
           pageSize: posts?.size,
