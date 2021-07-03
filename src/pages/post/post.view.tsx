@@ -1,19 +1,10 @@
-import Icon, {
-  CalendarOutlined,
-  EditOutlined,
-  EyeOutlined,
-  FormOutlined,
-  LikeOutlined,
-  MessageOutlined,
-  SearchOutlined,
-  StarOutlined
-} from '@ant-design/icons'
-import { Avatar, Button, List, Space } from 'antd'
+import Icon, { CalendarOutlined, EditOutlined, EyeOutlined, LikeOutlined, MessageOutlined } from '@ant-design/icons'
+import { Button, List, Space } from 'antd'
 import { fetchPosts } from 'api/post'
-import { PagePost, Post } from 'interface/post'
-import React, { useEffect, useState } from 'react'
+import { Post } from 'interface/post'
+import { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
-import { Link, RouteComponentProps } from 'react-router-dom'
+import { Link, useHistory, useLocation } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
 import { pageState } from 'state/state'
 
@@ -24,11 +15,14 @@ export const IconText = ({ icon, text }: { icon: any; text: any }) => (
   </Space>
 )
 
-const CommunityPageView: React.FC<RouteComponentProps> = ({ history, location }) => {
+const PostPageView = () => {
+  const history = useHistory()
+  const location = useLocation()
   const pageId: number = Number(location.search.split('=')[1])
   const [page, setPage] = useRecoilState(pageState)
   const [size, setSize] = useState(20)
-  const { status, data: posts, error, isFetching } = useQuery(['posts', { page, size }], fetchPosts)
+  const type = location.pathname.split('/')[1]
+  const { status, data: posts, error, isFetching } = useQuery(['posts', { type, page, size }], fetchPosts)
 
   const onClick = () => {
     history.push('/write')
@@ -53,7 +47,7 @@ const CommunityPageView: React.FC<RouteComponentProps> = ({ history, location })
             window.scrollTo(0, 0)
             setSize(pageSize === undefined ? 0 : pageSize)
             setPage(page - 1)
-            history.push(`/community?page=${page - 1}`)
+            history.push(`?page=${page - 1}`)
           },
           current: page + 1,
           pageSize: size,
@@ -81,7 +75,7 @@ const CommunityPageView: React.FC<RouteComponentProps> = ({ history, location })
             <List.Item.Meta
               // avatar={<Avatar src={item.id} />}
               title={<Link to={`c/post/${item.id}`}>{item.title}</Link>}
-              description={item.content}
+              description="개발자 H군"
             />
             {item.content}
           </List.Item>
@@ -93,4 +87,4 @@ const CommunityPageView: React.FC<RouteComponentProps> = ({ history, location })
   )
 }
 
-export default CommunityPageView
+export default PostPageView

@@ -1,21 +1,11 @@
 import { Layout, Menu } from 'antd'
 import React, { useEffect, useState } from 'react'
-import {
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
-  VideoCameraOutlined,
-  UploadOutlined,
-  CommentOutlined,
-  ReadOutlined,
-  BulbOutlined
-} from '@ant-design/icons'
+import { MenuUnfoldOutlined, MenuFoldOutlined, CommentOutlined, ReadOutlined, BulbOutlined } from '@ant-design/icons'
 import 'antd/dist/antd.css'
 import './main.css'
-import { BrowserRouter, Link, Redirect, Route, Switch } from 'react-router-dom'
-import CommunityPage from '../community/community'
-import CommunityDetailPage from '../community/[id]/communityDetail'
-import StudyPage from 'pages/study/sutdy'
-import QnaPage from 'pages/qna/qna'
+import { BrowserRouter, Link, Route, Switch, useLocation } from 'react-router-dom'
+import PostPage from '../post/post'
+import PostDetailPage from '../post/[id]/postDetail'
 import WritingPage from 'pages/write/wrtie'
 import { useRecoilState } from 'recoil'
 import { menuItemState, pageState } from 'state/state'
@@ -23,6 +13,7 @@ import ScrollToTop from 'components/scroll'
 const { Header, Sider, Content } = Layout
 
 function MainRouterPage() {
+  const href = window.location.href.split('/')
   const [toggle, setToggle] = useState(false)
   const [menuItem, setMenuItem] = useRecoilState(menuItemState)
   const [page, setPage] = useRecoilState(pageState)
@@ -43,19 +34,19 @@ function MainRouterPage() {
                 theme="dark"
                 mode="inline"
                 onClick={onClick}
-                selectedKeys={[menuItem]}
-                defaultSelectedKeys={['community']}
+                selectedKeys={[href[3].split('?')[0]]}
+                defaultSelectedKeys={[href[3].split('?')[0]]}
               >
                 <Menu.Item key="community" icon={<CommentOutlined />}>
                   <Link to="/community?page=0"></Link>
                   커뮤니티
                 </Menu.Item>
                 <Menu.Item key="study" icon={<ReadOutlined />}>
-                  <Link to="/study"></Link>
+                  <Link to="/study?page=0"></Link>
                   스터디 모집
                 </Menu.Item>
                 <Menu.Item key="qna" icon={<BulbOutlined />}>
-                  <Link to="/qna">Q & A</Link>
+                  <Link to="/qna?page=0">Q & A</Link>
                 </Menu.Item>
               </Menu>
             </Sider>
@@ -71,14 +62,14 @@ function MainRouterPage() {
                 style={{
                   margin: '24px 16px',
                   padding: 24,
-                  minHeight: '100vh'
+                  minHeight: '90vh'
                 }}
               >
                 {/* <Redirect path="/" to={`/community?page=${page}`} /> */}
-                <Route path="/community" component={CommunityPage} />
-                <Route path="/c/post/:id" component={CommunityDetailPage} />
-                <Route path="/study" component={StudyPage} />
-                <Route path="/qna" component={QnaPage} />
+                <Route path="/community" component={PostPage} />
+                <Route path="/c/post/:id" component={PostDetailPage} />
+                <Route path="/study" component={PostPage} />
+                <Route path="/qna" component={PostPage} />
                 <Route path="/write" component={WritingPage} />
               </Content>
             </Layout>
