@@ -10,6 +10,7 @@ import WritingPage from 'pages/write/wrtie'
 import { useRecoilState } from 'recoil'
 import { menuItemState, pageState } from 'state/state'
 import ScrollToTop from 'components/scroll'
+import Test from 'pages/test/test'
 const { Header, Sider, Content } = Layout
 
 function MainRouterPage() {

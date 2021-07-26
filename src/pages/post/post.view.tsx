@@ -1,5 +1,5 @@
 import Icon, { CalendarOutlined, EditOutlined, EyeOutlined, LikeOutlined, MessageOutlined } from '@ant-design/icons'
-import { Button, List, Space } from 'antd'
+import { Button, List, Select, Space } from 'antd'
 import { fetchPosts } from 'api/post'
 import { Post } from 'interface/post'
 import { useEffect, useState } from 'react'
@@ -14,6 +14,8 @@ export const IconText = ({ icon, text }: { icon: any; text: any }) => (
     {text}
   </Space>
 )
+
+const { Option } = Select
 
 const PostPageView = () => {
   const history = useHistory()
