@@ -21,9 +21,10 @@ interface PostRequest {
 }
 
 const Test = () => {
-  const [title, setTitle] = useState<string>('')
-  const [content, setContent] = useState<string>('')
+  // title, content 상태 2개를 관리하는 것에서 하나의 상태를 관리하게 수정
+  const [request, setRequest] = useState<PostRequest>({ title: '', content: '' })
   const [posts, setPosts] = useState<PostsResponse>()
+
   useEffect(() => {
     async function getPosts() {
       const posts = await axios.get<PostsResponse>('/post')
@@ -33,20 +34,16 @@ const Test = () => {
   }, [])
 
   const handleChange = (data: any) => {
-    const target = data.target
-    const value = target.value
-    const id = target.id
-    if (id === 'title') {
-      console.log(value)
-      setTitle(value)
-    } else if (id === 'content') {
-      console.log(value)
-      setContent(value)
-    }
+    const { id, value } = data.target
+    // Object ...을 사용하여 효율적으로 deep copy하고, 새로운 값 할당까지 가능
+    setRequest({
+      ...request,
+      [id]: value
+    })
   }
 
   const handleClick = async () => {
-    await axios.post<PostsResponse>('/post', { title: title, content: content })
+    await axios.post<PostsResponse>('/post', request)
   }
 
   return (
@@ -55,11 +52,11 @@ const Test = () => {
         <form>
           <div>
             <label>제목:</label>
-            <input type="text" id="title" value={title} onChange={handleChange} />
+            <input type="text" id="title" value={request.title} onChange={handleChange} />
           </div>
           <div>
             <label>내용:</label>
-            <input type="text" id="content" value={content} onChange={handleChange} />
+            <input type="text" id="content" value={request.content} onChange={handleChange} />
           </div>
           <div>
             <button onClick={handleClick}>게시글 작성</button>
